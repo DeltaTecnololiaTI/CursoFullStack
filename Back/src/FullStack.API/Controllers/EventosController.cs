@@ -11,12 +11,12 @@ namespace FullStack.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EventoController : ControllerBase
+    public class EventosController : ControllerBase
     {
         //Fazer referencia do context do BD dentro da controller
         private readonly DataContext contexto;
 
-        public EventoController(DataContext contexto)
+        public EventosController(DataContext contexto)
         {
             this.contexto = contexto;
 
