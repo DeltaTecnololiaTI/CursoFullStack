@@ -7,26 +7,24 @@
 </div>
  -->
 
-<h2>Eventos</h2>
+<app-titulo [titulo]="'Eventos'"></app-titulo>
 <hr>
-<div  class="row g-2 mb-3">
-  <div class="col-auto" >
-    <h2>Pesquisar: </h2>
-    <input type="text" class="form-control mr-2" placeholder="buscar"
-    [(ngModel)]="filtroLista"
-    >
-  </div>
- <!--  <div class="col-auto">
-    <button class="btn btn-outline-success"> Buscar</button>
-  </div> -->
+<div class="row g-2 mb-3">
+  <h3>Pesquisar: </h3>
+  <input type="text" class="form-control mr-2" placeholder="buscar"
+  [(ngModel)]="filtroLista"
+  >
 </div>
+
 <!-- <h2>Filtro: {{filtroLista}}</h2> -->
 <table class="table table-striped">
   <thead class="thead thead-dark">
     <tr>
       <th>
           <button type="button" class="btn btn-light btn-sm" (click)="alternarImagem()">
-            {{exibirImagem ? "Exibir" : "Ocultar"}}</button>
+          <i class="{{exibirImagem ? 'fa fa-eye' : 'fa fa-eye-slash' }}"></i>
+            {{exibirImagem ? "Exibir" : "Ocultar"}}
+          </button>
 
       </th>
       <th>#</th>
@@ -43,25 +41,34 @@
     <tr *ngFor="let evento of eventosFiltrados">
       <td >
         <!-- Propriedades bindings -->
-        <div [collapse]=exibirImagem [isAnimated]="true"><img src="/assets/{{evento.imagemURL}}"
+        <div [collapse]=exibirImagem [isAnimated]="true"><img class="img-thumbnail" src="/assets/{{evento.imagemUrl}}"
           alt=""
           [style.width.px]="larguraImagem"
           [style.height.px]="alturaImagem"
           [style.margin.px]="margemImagem"
          >
         </div>
-         <div [collapse]="!exibirImagem" [isAnimated]="true">{{evento.imagemURL}}</div>
+         <div [collapse]="!exibirImagem" [isAnimated]="true">{{evento.imagemUrl}}</div>
       </td>
       <!-- Interpolações -->
-      <td>{{evento.eventoId}}</td>
+      <td>{{evento.id}}</td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
-      <td>{{evento.dataEvento}}</td>
+      <td>{{evento.dataEvento | DataTimeFormatPipe}}</td>
       <td>{{evento.qtdPessoas}}</td>
       <td>{{evento.lote}}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
-        <button type="button" class="btn btn-danger btn-sm">Excluir</button></td>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm" tooltip="Editar">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" tooltip="Excluir"  (click)="openModal(template)">
+              <i class="fa fa-trash" ></i>
+            </button>
+        </div>
+      </td>
+
+
     </tr>
   </tbody>
   <tfoot *ngIf="eventos && !eventos.length">
@@ -75,3 +82,10 @@
 
 <!-- {{eventos | json}}
  -->
+ <ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que quer Apagar este Evento?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
+  </div>
+</ng-template>
